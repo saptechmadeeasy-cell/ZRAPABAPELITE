@@ -1,0 +1,11 @@
+{
+  "formatVersion": "1",
+  "header": {
+    "description": "SAP Object Node Type ZRAP_PK_TRAVEL",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "name": "ZRAP_PK_TRAVEL",
+  "sapObjectType": "ZRAP_PK_TRAVEL",
+  "rootNode": true
+}

@@ -1,0 +1,6 @@
+@EndUserText.label: 'ZC_RAP_PK_TRAVEL'
+@MappingRole: true
+define role ZC_RAP_PK_TRAVEL {
+  grant select on ZC_RAP_PK_TRAVEL
+  where INHERITING CONDITIONS FROM ENTITY ZR_RAP_PK_TRAVEL REPLACING { ROOT WITH _BaseEntity };
+}
