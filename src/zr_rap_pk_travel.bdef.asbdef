@@ -3,25 +3,32 @@ strict ( 2 );
 with draft;
 extensible;
 define behavior for ZR_RAP_PK_TRAVEL alias ZrRapPkTravel
-persistent table ZRAP_PK_TRAVEL
+persistent table zrap_pk_travel
 extensible
-draft table ZRAP_PK_TRAVEL_D
+draft table zrap_pk_travel_d
 etag master LocalLastChangedAt
 lock master total etag LastChangedAt
-authorization master( global )
+authorization master ( global )
+early numbering //very first step
 {
-  field ( mandatory : create )
-   TravelID;
+  //    field ( mandatory : create )
+//  field ( readonly : update )
+//  field (  ) TravelID;
+
+//  field ( mandatory : create , readonly : update ) travelId;
+
+//    field ( numbering : managed , readonly )
+//    travel_uuid;
 
   field ( readonly )
-   CreatedBy,
-   CreatedAt,
-   LocalLastChangedBy,
-   LocalLastChangedAt,
-   LastChangedAt;
+  CreatedBy,
+  CreatedAt,
+  LocalLastChangedBy,
+  LocalLastChangedAt,
+  LastChangedAt;
 
   field ( readonly : update )
-   TravelID;
+  TravelID, travel_uuid;
 
 
   create;
@@ -34,26 +41,26 @@ authorization master( global )
   draft action Resume;
   draft determine action Prepare;
 
-  mapping for ZRAP_PK_TRAVEL corresponding extensible
-  {
-    TravelID = TRAVEL_ID;
-    AgencyID = AGENCY_ID;
-    CustomerID = CUSTOMER_ID;
-    BeginDate = BEGIN_DATE;
-    EndDate = END_DATE;
-    BookingFee = BOOKING_FEE;
-    TotalPrice = TOTAL_PRICE;
-    CurrencyCode = CURRENCY_CODE;
-    Description = DESCRIPTION;
-    OverallStatus = OVERALL_STATUS;
-    Attachment = ATTACHMENT;
-    MimeType = MIME_TYPE;
-    FileName = FILE_NAME;
-    CreatedBy = CREATED_BY;
-    CreatedAt = CREATED_AT;
-    LocalLastChangedBy = LOCAL_LAST_CHANGED_BY;
-    LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
-    LastChangedAt = LAST_CHANGED_AT;
-  }
+  mapping for zrap_pk_travel corresponding extensible
+    {
+      TravelID           = TRAVEL_ID;
+      AgencyID           = AGENCY_ID;
+      CustomerID         = CUSTOMER_ID;
+      BeginDate          = BEGIN_DATE;
+      EndDate            = END_DATE;
+      BookingFee         = BOOKING_FEE;
+      TotalPrice         = TOTAL_PRICE;
+      CurrencyCode       = CURRENCY_CODE;
+      Description        = DESCRIPTION;
+      OverallStatus      = OVERALL_STATUS;
+      Attachment         = ATTACHMENT;
+      MimeType           = MIME_TYPE;
+      FileName           = FILE_NAME;
+      CreatedBy          = CREATED_BY;
+      CreatedAt          = CREATED_AT;
+      LocalLastChangedBy = LOCAL_LAST_CHANGED_BY;
+      LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
+      LastChangedAt      = LAST_CHANGED_AT;
+    }
 
 }
