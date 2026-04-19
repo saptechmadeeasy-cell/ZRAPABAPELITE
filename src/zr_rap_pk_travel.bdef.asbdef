@@ -2,23 +2,19 @@ managed implementation in class ZBP_R_RAP_PK_TRAVEL unique;
 strict ( 2 );
 with draft;
 extensible;
-define behavior for ZR_RAP_PK_TRAVEL alias ZrRapPkTravel
-persistent table zrap_pk_travel
+define behavior for ZR_RAP_PK_TRAVEL //alias ZrRapPkTravel
+//persistent table zrap_pk_travel
 extensible
 draft table zrap_pk_travel_d
 etag master LocalLastChangedAt
 lock master total etag LastChangedAt
 authorization master ( global )
 early numbering //very first step
+//with additional save
+with unmanaged save
 {
-  //    field ( mandatory : create )
-//  field ( readonly : update )
-//  field (  ) TravelID;
 
-//  field ( mandatory : create , readonly : update ) travelId;
 
-//    field ( numbering : managed , readonly )
-//    travel_uuid;
 
   field ( readonly )
   CreatedBy,
@@ -28,18 +24,50 @@ early numbering //very first step
   LastChangedAt;
 
   field ( readonly : update )
-  TravelID, travel_uuid;
+  TravelID;
+
+  field( readonly )
+  travel_uuid;
+
+  field( features: instance ) CustomerID;
 
 
   create;
-  update;
-  delete;
+  update( features: instance );
+  delete( features: instance );
+  action( features: instance )  applyDiscount result [1] $self;
+
+  determination determineDefaultStatus on modify { create; }
+
+  validation ValidateCustomer on save { create; field CustomerID ; }
 
   draft action Activate optimized;
   draft action Discard;
-  draft action Edit;
+  draft action( features: instance ) Edit;
   draft action Resume;
-  draft determine action Prepare;
+//// Inside your Travel entity definition
+//function //(authorization:none)
+// CheckTravelValidity result [1] $self;
+
+
+
+// In ZC_RAP_PK_TRAVEL
+
+  action( features: instance ) applyDiscountwithp parameter ZABS_ENTITY_LIVE_DEMO result [1] $self;
+    factory  action copyAndCreate [1];
+
+
+//function GetDiscountedPrice parameter  ZABS_ENTITY_LIVE_DEMO  result [1] $self;
+
+function(  features: instance  ) GetDiscountedPrice parameter  ZABS_ENTITY_LIVE_DEMO  result [1] ZABS_ENT_RESULT ;
+
+static function( authorization : none )  CalculateAveragePrice result [1] $self ;
+
+
+
+
+
+  draft determine action Prepare{ validation ValidateCustomer; }
 
   mapping for zrap_pk_travel corresponding extensible
     {
@@ -62,5 +90,18 @@ early numbering //very first step
       LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
       LastChangedAt      = LAST_CHANGED_AT;
     }
+
+
+// // Instance function with parameter and result
+//function //(authorization:none)
+//      GetDiscountedPrice
+//      parameter ZABS_ENTITY_LIVE_DEMO
+//      result [1] $self; //==> this returns same entity type instance
+//
+//
+//     function (authorization:none)
+//      GetDiscountedPrice2
+//      parameter ZABS_ENTITY_LIVE_DEMO
+//     result [1] ZI_ABSTRACT_NO_SELF  ; //this retuns instance of ZI_ABSTRACT_NO_SELF
 
 }

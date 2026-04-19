@@ -16,5 +16,11 @@ use etag
   use action Discard;
   use action Resume;
   use action Prepare;
+  use action applyDiscount;
+  use action applyDiscountwithp;
+  use action copyAndCreate;
+  use function GetDiscountedPrice;
+  use function CalculateAveragePrice;
+
 
 }
